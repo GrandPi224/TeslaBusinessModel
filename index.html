@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIP | Tesla Robotaxi Business — Hypothetical Model</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===================================================
+           CSS VARIABLES — THREE THEME SYSTEM
+           =================================================== */
+        :root {
+            /* CHIP Brand Colors */
+            --aventurine: #005348;
+            --tiffany: #0ABAB5;
+            --warm-sand: #F5F1EA;
+            --clay: #EBDCC8;
+            --taupe: #C4B5A8;
+            --deep-olive: #2F3B33;
+            --stone-gray: #E7E4DE;
+            --rich-earth: #3D2F1F;
+            --stone: #7A685A;
+            --terracotta: #CB694D;
+            --success: #16A34A;
+            --danger: #DC2626;
+            --warning: #F59E0B;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+
+            /* Transitions */
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s var(--ease);
+
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 16px;
+        }
+
+        /* ---------- LIGHT MODE (default) ---------- */
+        [data-theme="light"] {
+            --bg-primary: var(--warm-sand);
+            --bg-secondary: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-card-hover: #FDFCFA;
+            --bg-header: linear-gradient(135deg, var(--aventurine) 0%, var(--deep-olive) 100%);
+            --bg-modal-overlay: rgba(0,0,0,0.5);
+
+            --text-primary: var(--rich-earth);
+            --text-secondary: var(--stone);
+            --text-muted: var(--taupe);
+            --text-on-dark: #FAFAFA;
+
+            --border-color: var(--stone-gray);
+            --border-hover: var(--taupe);
+            --divider: var(--stone-gray);
+
+            --accent-primary: var(--aventurine);
+            --accent-secondary: var(--tiffany);
+            --accent-glow: rgba(10,186,181,0.15);
+
+            --chart-grid: rgba(0,0,0,0.06);
+            --chart-text: var(--stone);
+
+            --kpi-gradient-1: linear-gradient(135deg, var(--aventurine), var(--tiffany));
+            --kpi-gradient-2: linear-gradient(135deg, var(--terracotta), #E8956E);
+            --kpi-gradient-3: linear-gradient(135deg, var(--success), #34D399);
+            --kpi-gradient-4: linear-gradient(135deg, #3B82F6, #60A5FA);
+            --kpi-gradient-5: linear-gradient(135deg, var(--tiffany), #5FD4CF);
+
+            --table-row-alt: rgba(245,241,234,0.5);
+            --table-row-hover: rgba(10,186,181,0.06);
+
+            --flip-back-bg: var(--clay);
+            --insight-bg: rgba(22,163,74,0.08);
+            --insight-border: var(--success);
+            --warning-bg: rgba(245,158,11,0.08);
+            --warning-border: var(--warning);
+
+            --disclaimer-bg: var(--clay);
+            --disclaimer-border: var(--taupe);
+
+            --btn-bg: var(--warm-sand);
+            --btn-border: var(--stone-gray);
+            --btn-text: var(--stone);
+            --btn-hover-bg: var(--stone-gray);
+        }
+
+        /* ---------- DARK MODE ---------- */
+        [data-theme="dark"] {
+            --bg-primary: #0A0A0B;
+            --bg-secondary: #1A1B1E;
+            --bg-card: #141416;
+            --bg-card-hover: #1E1F22;
+            --bg-header: linear-gradient(135deg, #0A2E28 0%, #0A0A0B 100%);
+            --bg-modal-overlay: rgba(0,0,0,0.75);
+
+            --text-primary: #FAFAFA;
+            --text-secondary: #B8BCC8;
+            --text-muted: #808890;
+            --text-on-dark: #FAFAFA;
+
+            --border-color: #2A2C30;
+            --border-hover: #3A3C42;
+            --divider: #2A2C30;
+
+            --accent-primary: #0ABAB5;
+            --accent-secondary: #5FD4CF;
+            --accent-glow: rgba(10,186,181,0.2);
+
+            --chart-grid: rgba(255,255,255,0.06);
+            --chart-text: #808890;
+
+            --kpi-gradient-1: linear-gradient(135deg, #0ABAB5, #5FD4CF);
+            --kpi-gradient-2: linear-gradient(135deg, #CB694D, #E8956E);
+            --kpi-gradient-3: linear-gradient(135deg, #16A34A, #34D399);
+            --kpi-gradient-4: linear-gradient(135deg, #3B82F6, #60A5FA);
+            --kpi-gradient-5: linear-gradient(135deg, #5FD4CF, #8AE8E3);
+
+            --table-row-alt: rgba(255,255,255,0.02);
+            --table-row-hover: rgba(10,186,181,0.08);
+
+            --flip-back-bg: #1A1B1E;
+            --insight-bg: rgba(22,163,74,0.12);
+            --insight-border: #34D399;
+            --warning-bg: rgba(245,158,11,0.12);
+            --warning-border: #FBBF24;
+
+            --disclaimer-bg: #141416;
+            --disclaimer-border: #2A2C30;
+
+            --btn-bg: #1A1B1E;
+            --btn-border: #2A2C30;
+            --btn-text: #B8BCC8;
+            --btn-hover-bg: #2A2C30;
+
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+        }
+
+        /* ---------- BLACK & WHITE MODE ---------- */
+        [data-theme="bw"] {
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F5F5;
+            --bg-card: #FFFFFF;
+            --bg-card-hover: #FAFAFA;
+            --bg-header: linear-gradient(135deg, #1A1A1A 0%, #333333 100%);
+            --bg-modal-overlay: rgba(0,0,0,0.5);
+
+            --text-primary: #1A1A1A;
+            --text-secondary: #555555;
+            --text-muted: #999999;
+            --text-on-dark: #FFFFFF;
+
+            --border-color: #D0D0D0;
+            --border-hover: #AAAAAA;
+            --divider: #D0D0D0;
+
+            --accent-primary: #333333;
+            --accent-secondary: #555555;
+            --accent-glow: rgba(0,0,0,0.05);
+
+            --chart-grid: rgba(0,0,0,0.08);
+            --chart-text: #555555;
+
+            --kpi-gradient-1: linear-gradient(135deg, #333, #555);
+            --kpi-gradient-2: linear-gradient(135deg, #555, #777);
+            --kpi-gradient-3: linear-gradient(135deg, #222, #444);
+            --kpi-gradient-4: linear-gradient(135deg, #444, #666);
+            --kpi-gradient-5: linear-gradient(135deg, #333, #555);
+
+            --table-row-alt: rgba(0,0,0,0.03);
+            --table-row-hover: rgba(0,0,0,0.06);
+
+            --flip-back-bg: #F0F0F0;
+            --insight-bg: rgba(0,0,0,0.04);
+            --insight-border: #333;
+            --warning-bg: rgba(0,0,0,0.04);
+            --warning-border: #666;
+
+            --disclaimer-bg: #F5F5F5;
+            --disclaimer-border: #D0D0D0;
+
+            --btn-bg: #F5F5F5;
+            --btn-border: #D0D0D0;
+            --btn-text: #555;
+            --btn-hover-bg: #E0E0E0;
+        }
+
+        /* ===================================================
+           BASE RESET & TYPOGRAPHY
+           =================================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.4s var(--ease), color 0.4s var(--ease);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===================================================
+           HEADER
+           =================================================== */
+        .header {
+            background: var(--bg-header);
+            padding: 2.5rem 2rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(10,186,181,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .header-info h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--tiffany) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        [data-theme="bw"] .header-info h1 {
+            background: linear-gradient(135deg, #FFFFFF 0%, #CCCCCC 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .header-info .subtitle {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-top: 0.35rem;
+        }
+        .header-info .chip-brand {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.25rem;
+        }
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .controls button {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.85);
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: inherit;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .controls button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.08);
+            transform: translateX(-100%);
+            transition: transform 0.4s var(--ease);
+        }
+        .controls button:hover::before { transform: translateX(0); }
+        .controls button:hover {
+            background: rgba(255,255,255,0.18);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .controls button:active { transform: translateY(0); }
+
+        /* ===================================================
+           CONTAINER
+           =================================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ===================================================
+           SECTION TITLES
+           =================================================== */
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin: 2.5rem 0 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-secondary);
+            letter-spacing: -0.3px;
+        }
+
+        /* ===================================================
+           ROW LAYOUT
+           =================================================== */
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .row-full {
+            grid-template-columns: 1fr;
+        }
+
+        /* ===================================================
+           FLIP CARD SYSTEM
+           =================================================== */
+        .flip-container {
+            perspective: 1200px;
+            min-height: 0;
+        }
+        .flipper {
+            position: relative;
+            width: 100%;
+            transition: transform 0.7s var(--ease);
+            transform-style: preserve-3d;
+        }
+        .flip-container.flipped .flipper {
+            transform: rotateY(180deg);
+        }
+        .flip-front, .flip-back {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 1.75rem;
+            border: 1px solid var(--border-color);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .flip-front::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--aventurine), var(--tiffany));
+            opacity: 0;
+            transition: opacity 0.3s var(--ease);
+        }
+        .flip-front:hover::before { opacity: 1; }
+        .flip-front:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+        }
+        .flip-front {
+            position: relative;
+            z-index: 2;
+        }
+        .flip-back {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            transform: rotateY(180deg);
+            z-index: 1;
+            min-height: 100%;
+            background: var(--flip-back-bg);
+        }
+        .flip-front h2, .flip-back h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Flip button */
+        .flip-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--btn-bg);
+            border: 1px solid var(--btn-border);
+            color: var(--btn-text);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 10;
+            font-family: inherit;
+        }
+        .flip-btn:hover {
+            background: var(--accent-primary);
+            color: var(--text-on-dark);
+            border-color: var(--accent-primary);
+            transform: scale(1.1);
+        }
+        .flip-hint {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Back card content */
+        .explanation { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; }
+        .explanation h3 {
+            color: var(--accent-primary);
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 1.25rem 0 0.5rem;
+        }
+        .explanation h3:first-child { margin-top: 0; }
+        .explanation p { margin-bottom: 0.75rem; }
+        .explanation ul { margin: 0.5rem 0 0.75rem 1.25rem; }
+        .explanation li { margin-bottom: 0.4rem; }
+        .key-insight {
+            background: var(--insight-bg);
+            border-left: 3px solid var(--insight-border);
+            padding: 0.85rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+            color: var(--success);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        [data-theme="dark"] .key-insight { color: #34D399; }
+        [data-theme="bw"] .key-insight { color: var(--text-primary); }
+        .warning-box {
+            background: var(--warning-bg);
+            border-left: 3px solid var(--warning-border);
+            padding: 0.85rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+            color: var(--warning);
+            font-size: 0.9rem;
+        }
+        [data-theme="dark"] .warning-box { color: #FBBF24; }
+        [data-theme="bw"] .warning-box { color: var(--text-primary); }
+
+        /* ===================================================
+           KPI FLIP CARDS
+           =================================================== */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .kpi-flip-container {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .kpi-flipper {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            transition: transform 0.6s var(--ease);
+            transform-style: preserve-3d;
+        }
+        .kpi-flip-container.flipped .kpi-flipper {
+            transform: rotateY(180deg);
+        }
+        .kpi-front, .kpi-back {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        .kpi-front::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            opacity: 0;
+            transition: opacity 0.3s var(--ease);
+        }
+        .kpi-flip-container:nth-child(1) .kpi-front::before { background: var(--kpi-gradient-1); }
+        .kpi-flip-container:nth-child(2) .kpi-front::before { background: var(--kpi-gradient-3); }
+        .kpi-flip-container:nth-child(3) .kpi-front::before { background: var(--kpi-gradient-2); }
+        .kpi-flip-container:nth-child(4) .kpi-front::before { background: var(--kpi-gradient-4); }
+        .kpi-flip-container:nth-child(5) .kpi-front::before { background: var(--kpi-gradient-5); }
+        .kpi-flip-container:hover .kpi-front::before { opacity: 1; }
+        .kpi-flip-container:hover .kpi-front {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        .kpi-back {
+            transform: rotateY(180deg);
+            background: var(--flip-back-bg);
+            padding: 1rem;
+        }
+        .kpi-front .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .kpi-front .value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--kpi-gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .kpi-flip-container:nth-child(1) .value { background: var(--kpi-gradient-2); -webkit-background-clip: text; background-clip: text; }
+        .kpi-flip-container:nth-child(2) .value { background: var(--kpi-gradient-3); -webkit-background-clip: text; background-clip: text; }
+        .kpi-flip-container:nth-child(3) .value { background: var(--kpi-gradient-2); -webkit-background-clip: text; background-clip: text; }
+        .kpi-flip-container:nth-child(4) .value { background: var(--kpi-gradient-4); -webkit-background-clip: text; background-clip: text; }
+        .kpi-flip-container:nth-child(5) .value { background: var(--kpi-gradient-5); -webkit-background-clip: text; background-clip: text; }
+        .kpi-flip-hint {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+        .kpi-back .back-title {
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .kpi-back p {
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ===================================================
+           VEHICLE SHOWCASE — COMPACT (NO IMAGES)
+           =================================================== */
+        .vehicle-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .vehicle-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+        }
+        .vehicle-card .vehicle-info {
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+        }
+        .vehicle-card .vehicle-info h2 {
+            color: var(--accent-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+        .vehicle-card .vehicle-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ===================================================
+           TABLES
+           =================================================== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.75rem;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        th {
+            background: var(--accent-primary);
+            color: var(--text-on-dark);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.85rem 1rem;
+            text-align: left;
+        }
+        th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+        th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+        td {
+            padding: 0.85rem 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--divider);
+        }
+        tr:nth-child(even) { background: var(--table-row-alt); }
+        tr:hover { background: var(--table-row-hover); }
+        .profit {
+            color: var(--success);
+            font-weight: 700;
+        }
+        .cost {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        /* ===================================================
+           TIMELINE
+           =================================================== */
+        .timeline { padding: 1.25rem 0; }
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--aventurine), var(--tiffany));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #FFF;
+            flex-shrink: 0;
+            margin-right: 1rem;
+            box-shadow: 0 2px 8px rgba(10,186,181,0.25);
+        }
+        [data-theme="bw"] .timeline-dot {
+            background: linear-gradient(135deg, #333, #555);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .timeline-content h3 {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .timeline-content p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        /* ===================================================
+           RISK BARS
+           =================================================== */
+        .risk-bar-container { margin: 0.75rem 0; }
+        .risk-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .risk-bar-bg {
+            background: var(--divider);
+            border-radius: var(--radius-sm);
+            height: 22px;
+            overflow: hidden;
+        }
+        .risk-bar {
+            height: 100%;
+            border-radius: var(--radius-sm);
+            transition: width 1.2s var(--ease);
+        }
+        .risk-low { background: linear-gradient(90deg, var(--success), #34D399); }
+        .risk-med { background: linear-gradient(90deg, var(--warning), #FBBF24); }
+        .risk-high { background: linear-gradient(90deg, var(--danger), #EF4444); }
+        [data-theme="bw"] .risk-low { background: #555; }
+        [data-theme="bw"] .risk-med { background: #888; }
+        [data-theme="bw"] .risk-high { background: #333; }
+
+        /* ===================================================
+           HIGHLIGHT BOX
+           =================================================== */
+        .highlight-box {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-secondary);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, var(--accent-glow), transparent 70%);
+            pointer-events: none;
+        }
+        .highlight-box .big-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--aventurine), var(--tiffany));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+        [data-theme="bw"] .highlight-box .big-number {
+            background: linear-gradient(135deg, #222, #555);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .highlight-box .big-label {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+            position: relative;
+        }
+
+        /* ===================================================
+           MODAL (View Source)
+           =================================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--bg-modal-overlay);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            animation: modalIn 0.3s var(--ease);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--divider);
+        }
+        .modal-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .modal-close:hover { color: var(--danger); transform: scale(1.2); }
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: calc(80vh - 70px);
+        }
+        .modal-body pre {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ===================================================
+           FOOTER / DISCLAIMER
+           =================================================== */
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+        }
+        .disclaimer {
+            background: var(--disclaimer-bg);
+            border: 1px solid var(--disclaimer-border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+        }
+        .disclaimer-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .disclaimer-text {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .disclaimer-text p { margin-bottom: 0.6rem; }
+        .disclaimer-text p:last-child { margin-bottom: 0; }
+        .chip-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        .chip-footer a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+        .chip-footer a:hover { text-decoration: underline; }
+
+        /* ===================================================
+           CANVAS / CHART CONTAINER
+           =================================================== */
+        canvas { max-height: 340px; }
+
+        /* ===================================================
+           STAGGER ANIMATIONS ON LOAD
+           =================================================== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in {
+            animation: fadeInUp 0.5s var(--ease) forwards;
+            opacity: 0;
+        }
+        .kpi-flip-container:nth-child(1) { animation-delay: 0.05s; }
+        .kpi-flip-container:nth-child(2) { animation-delay: 0.1s; }
+        .kpi-flip-container:nth-child(3) { animation-delay: 0.15s; }
+        .kpi-flip-container:nth-child(4) { animation-delay: 0.2s; }
+        .kpi-flip-container:nth-child(5) { animation-delay: 0.25s; }
+
+        /* ===================================================
+           PRINT STYLES
+           =================================================== */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .header { background: #333 !important; }
+            .controls { display: none !important; }
+            .flip-btn { display: none !important; }
+            .flip-hint { display: none !important; }
+            .kpi-flip-hint { display: none !important; }
+            .flip-front, .flip-back, .kpi-front, .kpi-back {
+                border: 1px solid #ccc !important;
+                background: #fff !important;
+                box-shadow: none !important;
+            }
+            .vehicle-card { box-shadow: none !important; }
+        }
+
+        /* ===================================================
+           RESPONSIVE
+           =================================================== */
+        @media (max-width: 968px) {
+            .header-inner { flex-direction: column; }
+            .header-info h1 { font-size: 1.75rem; }
+            .container { padding: 1.25rem; }
+            .row { grid-template-columns: 1fr; }
+            .kpi-row { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+        @media (max-width: 768px) {
+            .header { padding: 1.5rem 1rem; }
+            .header-info h1 { font-size: 1.5rem; }
+            .controls { width: 100%; justify-content: center; }
+            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .highlight-box .big-number { font-size: 2.25rem; }
+            th, td { padding: 0.6rem 0.5rem; font-size: 0.78rem; }
+        }
+
+        /* ===================================================
+           ACCESSIBILITY — FOCUS
+           =================================================== */
+        button:focus-visible, a:focus-visible {
+            outline: 2px solid var(--accent-secondary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <div class="header" role="banner">
+        <div class="header-inner">
+            <div class="header-info">
+                <div class="chip-brand">CHIP | Wealth Management for Main Street</div>
+                <h1>Tesla Robotaxi Business — Hypothetical Model</h1>
+                <div class="subtitle">Educational Mock Dashboard &amp; Projected Business Scenario</div>
+            </div>
+            <div class="controls">
+                <button class="theme-toggle" onclick="cycleTheme()" aria-label="Toggle theme">&#127763; Theme</button>
+                <button class="source-btn" onclick="openModal()" aria-label="View source data">&#128196; View Source</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="container" role="main">
+
+        <!-- VEHICLE SHOWCASE — COMPACT (NO IMAGES) -->
+        <div class="row" style="margin-top:0.5rem;">
+            <div class="vehicle-card animate-in" style="animation-delay:0.05s;">
+                <div class="vehicle-info">
+                    <h2>Tesla Model 3</h2>
+                    <p>Starting at ~$38,990 + FSD | Lower entry cost | Compact &amp; efficient</p>
+                </div>
+            </div>
+            <div class="vehicle-card animate-in" style="animation-delay:0.12s;">
+                <div class="vehicle-info">
+                    <h2>Tesla Model Y</h2>
+                    <p>Starting at ~$44,990 + FSD | More passenger space | SUV comfort</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI CARDS -->
+        <div class="kpi-row">
+            <div class="kpi-flip-container animate-in" onclick="this.classList.toggle('flipped')" tabindex="0" role="button" aria-label="Startup Cost: $57,990. Click to flip for details.">
+                <div class="kpi-flipper">
+                    <div class="kpi-front">
+                        <div class="label">Startup Cost</div>
+                        <div class="value">$57,990</div>
+                        <div class="kpi-flip-hint">click to flip</div>
+                    </div>
+                    <div class="kpi-back">
+                        <div class="back-title">Startup Cost</div>
+                        <p>Includes Tesla Model Y ($44,990), FSD package ($8,000), commercial insurance ($3,000/yr), registration ($500), and equipment ($500). Can be financed with ~$5,300 down.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-flip-container animate-in" onclick="this.classList.toggle('flipped')" tabindex="0" role="button" aria-label="Monthly Profit: $5,187. Click to flip for details.">
+                <div class="kpi-flipper">
+                    <div class="kpi-front">
+                        <div class="label">Monthly Profit</div>
+                        <div class="value">$5,187</div>
+                        <div class="kpi-flip-hint">click to flip</div>
+                    </div>
+                    <div class="kpi-back">
+                        <div class="back-title">Monthly Profit</div>
+                        <p>Based on moderate scenario: 10 hrs/day, 2 rides/hr at $15 avg fare. After Tesla's 25% platform fee and $1,563 in monthly costs. That's ~$170/day.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-flip-container animate-in" onclick="this.classList.toggle('flipped')" tabindex="0" role="button" aria-label="Annual ROI: 107%. Click to flip for details.">
+                <div class="kpi-flipper">
+                    <div class="kpi-front">
+                        <div class="label">Annual ROI</div>
+                        <div class="value">107%</div>
+                        <div class="kpi-flip-hint">click to flip</div>
+                    </div>
+                    <div class="kpi-back">
+                        <div class="back-title">Return on Investment</div>
+                        <p>Your $57,990 investment generates $62,244 in Year 1 profit — more than doubling your money. Very few investments offer 100%+ annual returns.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-flip-container animate-in" onclick="this.classList.toggle('flipped')" tabindex="0" role="button" aria-label="Break-Even: 11 months. Click to flip for details.">
+                <div class="kpi-flipper">
+                    <div class="kpi-front">
+                        <div class="label">Break-Even</div>
+                        <div class="value">11 mo</div>
+                        <div class="kpi-flip-hint">click to flip</div>
+                    </div>
+                    <div class="kpi-back">
+                        <div class="back-title">Break-Even Point</div>
+                        <p>At $5,187/month profit, recover the full $57,990 in about 11 months. After that, every dollar is pure profit. Conservative: 23 mo. Aggressive: 6 mo.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-flip-container animate-in" onclick="this.classList.toggle('flipped')" tabindex="0" role="button" aria-label="Profit Margin: 57%. Click to flip for details.">
+                <div class="kpi-flipper">
+                    <div class="kpi-front">
+                        <div class="label">Profit Margin</div>
+                        <div class="value">57%</div>
+                        <div class="kpi-flip-hint">click to flip</div>
+                    </div>
+                    <div class="kpi-back">
+                        <div class="back-title">Profit Margin</div>
+                        <p>57 cents of every dollar earned (after platform fees) is profit. Most businesses operate at 10-20%. The key: no driver salary, normally 60-70% of ride-hail costs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REVENUE SCENARIOS -->
+        <div class="section-title">Revenue Scenarios</div>
+        <div class="row">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card for explanation">?</button>
+                        <h2>Monthly Profit by Scenario</h2>
+                        <canvas id="scenarioChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back to chart">&#8634;</button>
+                        <h2>Monthly Profit — Explained</h2>
+                        <div class="explanation">
+                            <h3>What This Shows</h3>
+                            <p>Three operating scenarios based on daily operating hours.</p>
+                            <ul>
+                                <li><strong>Conservative (6 hrs/day):</strong> $2,487/mo — part-time operation, owner also drives.</li>
+                                <li><strong>Moderate (10 hrs/day):</strong> $5,187/mo — peak demand hours. The sweet spot.</li>
+                                <li><strong>Aggressive (16 hrs/day):</strong> $9,237/mo — full-time with charging breaks only.</li>
+                            </ul>
+                            <div class="key-insight">Even the conservative scenario covers the car payment and generates meaningful passive income.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card for explanation">?</button>
+                        <h2>Annual Revenue vs Costs vs Profit</h2>
+                        <canvas id="annualChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back to chart">&#8634;</button>
+                        <h2>Revenue vs Costs — Explained</h2>
+                        <div class="explanation">
+                            <h3>Why It Matters</h3>
+                            <p>Operating costs stay nearly flat at ~$18,756/year regardless of hours. Most costs are fixed — payment, insurance, software.</p>
+                            <div class="key-insight">Higher utilization = dramatically higher margins. Going from 6 to 16 hours doesn't triple costs, but nearly triples profit.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COST BREAKDOWN -->
+        <div class="section-title">Cost Breakdown</div>
+        <div class="row">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Startup Cost Breakdown</h2>
+                        <canvas id="startupPie"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Startup Costs — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Tesla Model Y (78%):</strong> The car — your revenue-generating machine.</li>
+                                <li><strong>FSD Package (14%):</strong> The technology that replaces the driver.</li>
+                                <li><strong>Insurance (5%):</strong> Commercial/rideshare — legally required.</li>
+                                <li><strong>Other (3%):</strong> Registration, seat covers, dashcam.</li>
+                            </ul>
+                            <div class="key-insight">92% of startup cost is the car + FSD. If Tesla lowers pricing, the business becomes even more attractive.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Monthly Operating Costs</h2>
+                        <canvas id="monthlyCostPie"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Monthly Costs — Explained</h2>
+                        <div class="explanation">
+                            <h3>Monthly Overhead: $1,563</h3>
+                            <ul>
+                                <li><strong>Car Payment (60%):</strong> $933/mo — goes away after 5 years.</li>
+                                <li><strong>Insurance (16%):</strong> $250/mo commercial coverage.</li>
+                                <li><strong>Electricity (10%):</strong> $150/mo vs ~$550/mo gas.</li>
+                                <li><strong>Cleaning (8%):</strong> $120/mo interior upkeep.</li>
+                                <li><strong>Maintenance (6%):</strong> EVs have far fewer moving parts.</li>
+                            </ul>
+                            <div class="key-insight">After payoff (month 61+), costs drop to $630 and monthly profit jumps to $6,120.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLEET SCALING -->
+        <div class="section-title">Fleet Scaling Projections</div>
+        <div class="row row-full">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Annual Profit by Fleet Size</h2>
+                        <canvas id="fleetChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Fleet Scaling — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>1 Car:</strong> $62K/yr — proves the model</li>
+                                <li><strong>3 Cars:</strong> $187K/yr — solid full-time income</li>
+                                <li><strong>5 Cars:</strong> $311K/yr — real transportation company</li>
+                                <li><strong>10 Cars:</strong> $622K/yr — consider LLC and fleet manager</li>
+                            </ul>
+                            <div class="key-insight">Unlike a restaurant, adding a "new location" requires no employees, no lease — just another Tesla.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BREAK-EVEN -->
+        <div class="section-title">Break-Even Timeline</div>
+        <div class="row">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Cumulative Cash Flow (Moderate)</h2>
+                        <canvas id="breakEvenChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Cash Flow — Explained</h2>
+                        <div class="explanation">
+                            <p>Start at -$57,990. Each month adds $5,187. The line crosses $0 around month 11 — your break-even point. By month 18, you've earned ~$35,000 in pure profit.</p>
+                            <div class="key-insight">The color shift on data points shows you moving from "paying off" to "making money."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Break-Even by Scenario</h2>
+                        <canvas id="breakEvenBars"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Break-Even Scenarios — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Aggressive (6 mo):</strong> 16 hrs/day — fastest payback.</li>
+                                <li><strong>Moderate (11 mo):</strong> 10 hrs/day — best balance.</li>
+                                <li><strong>Conservative (23 mo):</strong> 6 hrs/day — still under 2 years.</li>
+                            </ul>
+                            <div class="warning-box">A typical restaurant takes 3-5 years to break even. Even the conservative robotaxi scenario beats most businesses.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COMPARISONS -->
+        <div class="section-title">Robotaxi vs Traditional Rideshare</div>
+        <div class="row">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Cost Per Mile Comparison</h2>
+                        <canvas id="costPerMile"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Cost Per Mile — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Tesla:</strong> ~3.5 miles/kWh at $0.14/kWh = $0.04/mile</li>
+                                <li><strong>Gas car:</strong> 25 MPG at $3.75/gal = $0.15/mile</li>
+                                <li><strong>Taxi:</strong> Older, less efficient = $0.18/mile</li>
+                            </ul>
+                            <div class="key-insight">Over 100,000 miles, you save $11,000-$14,000 on fuel alone vs gas vehicles.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Daily Operating Hours</h2>
+                        <canvas id="hoursChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Operating Hours — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Tesla Robotaxi (20 hrs):</strong> Only charges ~4 hrs/day. No meals, breaks, fatigue.</li>
+                                <li><strong>Uber/Lyft (10 hrs):</strong> Human endurance limit.</li>
+                                <li><strong>Taxi (12 hrs):</strong> Shift-based, driver-limited.</li>
+                            </ul>
+                            <div class="key-insight">2x the hours of a human driver = 2x the revenue. Two employees for the price of zero.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FUEL COMPARISON -->
+        <div class="row row-full">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>5-Year Fuel/Energy Cost: Electric vs Gas</h2>
+                        <canvas id="fuelChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Fuel Savings — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Electric:</strong> $9,000 total over 5 years (~$150/mo)</li>
+                                <li><strong>Gasoline:</strong> $32,850 total over 5 years (~$548/mo)</li>
+                            </ul>
+                            <div class="key-insight">$23,850 in fuel savings over 5 years effectively reduces startup cost to ~$34,000 vs a gas taxi.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SENSITIVITY -->
+        <div class="section-title">Sensitivity Analysis</div>
+        <div class="row row-full">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Impact on Monthly Profit When Variables Change</h2>
+                        <canvas id="sensitivityChart"></canvas>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Sensitivity Analysis — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Fare -20%:</strong> $3,837 (-26%). Still profitable.</li>
+                                <li><strong>Platform fee 30%:</strong> $4,587 (-12%). Minor impact.</li>
+                                <li><strong>Only 8 hrs/day:</strong> $3,837 (-26%). Covers costs.</li>
+                                <li><strong>Insurance +50%:</strong> $5,062 (-2%). Almost no impact.</li>
+                                <li><strong>ALL negatives:</strong> $1,712 (-67%). STILL PROFITABLE.</li>
+                            </ul>
+                            <div class="key-insight">Even in the worst-case scenario where everything goes wrong simultaneously, the business generates $1,712/month ($20,544/year).</div>
+                            <div class="warning-box">Biggest risks are fare reductions and low demand — both market-driven. Choose a high-demand area.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RISK ASSESSMENT -->
+        <div class="section-title">Risk Assessment</div>
+        <div class="row row-full">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Risk Level by Category</h2>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Regulatory Delays</span><span>Medium-High</span></div><div class="risk-bar-bg"><div class="risk-bar risk-med" style="width:70%"></div></div></div>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Technology Readiness</span><span>Medium</span></div><div class="risk-bar-bg"><div class="risk-bar risk-med" style="width:55%"></div></div></div>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Market Saturation</span><span>Medium</span></div><div class="risk-bar-bg"><div class="risk-bar risk-med" style="width:50%"></div></div></div>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Vehicle Damage</span><span>Low-Medium</span></div><div class="risk-bar-bg"><div class="risk-bar risk-low" style="width:35%"></div></div></div>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Competition (Waymo/Uber)</span><span>Medium-High</span></div><div class="risk-bar-bg"><div class="risk-bar risk-med" style="width:65%"></div></div></div>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Economic Downturn</span><span>Low</span></div><div class="risk-bar-bg"><div class="risk-bar risk-low" style="width:25%"></div></div></div>
+                        <div class="risk-bar-container"><div class="risk-label"><span>Insurance Cost Increase</span><span>Low</span></div><div class="risk-bar-bg"><div class="risk-bar risk-low" style="width:20%"></div></div></div>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Risk Assessment — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Regulatory (70%):</strong> Some jurisdictions slow to approve. Start in approved markets (TX, AZ, CA).</li>
+                                <li><strong>Technology (55%):</strong> FSD must be fully approved. Don't invest until approved in your area.</li>
+                                <li><strong>Saturation (50%):</strong> Too many operators could drop fares. First-mover advantage matters.</li>
+                                <li><strong>Damage (35%):</strong> Passenger damage, accidents. Covered by commercial insurance.</li>
+                                <li><strong>Competition (65%):</strong> Waymo, Uber building networks. Tesla's scale is the advantage.</li>
+                                <li><strong>Economic (25%):</strong> Transportation is recession-resistant.</li>
+                                <li><strong>Insurance (20%):</strong> Rates should drop as safety data improves.</li>
+                            </ul>
+                            <div class="key-insight">The two biggest risks are external. Focus on what you CAN control: vehicle quality, operating hours, market selection.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GROWTH ROADMAP -->
+        <div class="section-title">Growth Roadmap</div>
+        <div class="row row-full">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Business Growth Timeline</h2>
+                        <div class="timeline">
+                            <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><h3>Month 1-2: Purchase &amp; Setup</h3><p>Buy Tesla with FSD. Register on network. Get commercial insurance. Set up business entity.</p></div></div>
+                            <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><h3>Month 3-6: Validate &amp; Optimize</h3><p>Run robotaxi locally. Track revenue, costs, peak hours. Optimize charging. Build data history.</p></div></div>
+                            <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><h3>Month 7-12: Scale to 3 Cars</h3><p>Reinvest profits into 2 additional Teslas. Expand coverage. Reach $15K+/mo profit.</p></div></div>
+                            <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><h3>Year 2: Fleet of 5-10</h3><p>Business financing. Fleet manager. Expand to neighboring cities. $300K-600K annual revenue.</p></div></div>
+                            <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><h3>Year 3+: Full Fleet Operations</h3><p>20+ vehicles. Multiple markets. Established brand. $1M+ annual revenue potential.</p></div></div>
+                        </div>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Growth Roadmap — Explained</h2>
+                        <div class="explanation">
+                            <ul>
+                                <li><strong>Phase 1:</strong> Keep your day job. Car runs itself. Learn the platform.</li>
+                                <li><strong>Phase 2:</strong> 4 months of real data validates YOUR market.</li>
+                                <li><strong>Phase 3:</strong> Banks love 6+ months of revenue history for financing.</li>
+                                <li><strong>Phase 4:</strong> 5+ cars = LLC, fleet manager, commercial financing.</li>
+                                <li><strong>Phase 5:</strong> 20+ cars = transportation company. Partnerships, corporate accounts.</li>
+                            </ul>
+                            <div class="key-insight">You can start this business while keeping your current job. The car works while you do other things.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HIGHLIGHT -->
+        <div class="highlight-box">
+            <div class="big-number">$622,440</div>
+            <div class="big-label">Projected Annual Profit with a 10-Car Fleet (Moderate Scenario)</div>
+        </div>
+
+        <!-- FINANCIAL TABLE -->
+        <div class="section-title">Financial Summary Table</div>
+        <div class="row row-full">
+            <div class="flip-container">
+                <div class="flipper">
+                    <div class="flip-front">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip card">?</button>
+                        <h2>Fleet Scaling — All Scenarios</h2>
+                        <div style="overflow-x:auto;">
+                        <table>
+                            <thead><tr><th>Fleet Size</th><th>Startup Cost</th><th>Monthly Revenue</th><th>Monthly Costs</th><th>Monthly Profit</th><th>Annual Profit</th></tr></thead>
+                            <tbody>
+                                <tr><td>1 Car</td><td class="cost">$57,990</td><td>$6,750</td><td class="cost">$1,563</td><td class="profit">$5,187</td><td class="profit">$62,244</td></tr>
+                                <tr><td>3 Cars</td><td class="cost">$173,970</td><td>$20,250</td><td class="cost">$4,689</td><td class="profit">$15,561</td><td class="profit">$186,732</td></tr>
+                                <tr><td>5 Cars</td><td class="cost">$289,950</td><td>$33,750</td><td class="cost">$7,815</td><td class="profit">$25,935</td><td class="profit">$311,220</td></tr>
+                                <tr><td>10 Cars</td><td class="cost">$579,900</td><td>$67,500</td><td class="cost">$15,630</td><td class="profit">$51,870</td><td class="profit">$622,440</td></tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div class="flip-hint">Click ? for explanation</div>
+                    </div>
+                    <div class="flip-back">
+                        <button class="flip-btn" onclick="this.closest('.flip-container').classList.toggle('flipped')" aria-label="Flip back">&#8634;</button>
+                        <h2>Financial Summary — Explained</h2>
+                        <div class="explanation">
+                            <p>Profit scales linearly — each car adds ~$5,187/month. In most businesses, scaling means hiring managers and renting space. Here, scaling means buying another car.</p>
+                            <div class="key-insight">A 10-car fleet generating $622K/year is achievable within 2-3 years from a single vehicle. The business funds its own growth.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="disclaimer">
+                <div class="disclaimer-title">Important Legal Disclaimer</div>
+                <div class="disclaimer-text">
+                    <p>Investment advice and analysis provided by CHIP, Licensed Financial Advisor at 1st Discount Brokerage | askchip@1db.com | Securities offered through 1DB. Member FINRA/SIPC. This material is for informational purposes only and should not be construed as investment advice. Past performance does not guarantee future results.</p>
+                    <p><strong>FOR EDUCATIONAL AND INFORMATIONAL PURPOSES ONLY.</strong> The information, data, financial projections, charts, analysis, and all other content presented in this document (the "Materials") are provided strictly for educational, illustrative, and informational purposes. The Materials do not constitute financial advice, investment advice, tax advice, legal advice, or any other form of professional advice or recommendation.</p>
+                    <p><strong>NO GUARANTEES OR WARRANTIES.</strong> All financial projections, revenue estimates, profit calculations, ROI figures, and break-even timelines are hypothetical and based on assumptions that may not reflect actual market conditions, regulatory environments, technology readiness, or business outcomes. Actual results may vary materially from projections presented.</p>
+                    <p><strong>INDEMNIFICATION &amp; HOLD HARMLESS.</strong> By accessing the Materials, the Recipient agrees to fully indemnify, defend, and hold harmless the author, creator, presenter, distributor, and all affiliated parties from any claims, demands, losses, damages, liabilities, costs, or expenses arising from use of or reliance upon the Materials, any decisions made based on the Materials, or any violation of applicable laws.</p>
+                    <p><strong>LIMITATION OF LIABILITY.</strong> The Indemnified Parties shall not be liable for any direct, indirect, incidental, special, consequential, punitive, or exemplary damages arising from the Materials, regardless of foreseeability or theory of liability.</p>
+                    <p><strong>NOT AFFILIATED.</strong> The Materials are not affiliated with, endorsed by, or associated with Tesla, Inc. All trademarks are the property of their respective owners.</p>
+                    <p><strong>CONSULT PROFESSIONALS.</strong> Consult with qualified financial advisors, accountants, attorneys, and business consultants before making any financial or business decisions.</p>
+                    <p><strong>ACCEPTANCE.</strong> By accessing or using the Materials, the Recipient acknowledges they have read, understood, and agree to all terms set forth in this disclaimer.</p>
+                </div>
+            </div>
+            <div class="chip-footer">
+                CHIP | Wealth Management for Main Street | <a href="mailto:askchip@1db.com">askchip@1db.com</a>
+            </div>
+        </div>
+
+    </div><!-- end .container -->
+
+    <!-- ===== VIEW SOURCE MODAL ===== -->
+    <div class="modal-overlay" id="sourceModal" onclick="if(event.target===this)closeModal()">
+        <div class="modal" role="dialog" aria-label="Source Data">
+            <div class="modal-header">
+                <h3>Source Data (JSON)</h3>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre id="sourceData"></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+    /* ===========================
+       THEME MANAGEMENT
+       =========================== */
+    const themes = ['light', 'dark', 'bw'];
+    const themeLabels = { light: '&#9788; Light', dark: '&#127763; Dark', bw: '&#9680; B&W' };
+    let currentThemeIndex = 0;
+
+    function initTheme() {
+        const saved = localStorage.getItem('chip-theme');
+        if (saved && themes.includes(saved)) {
+            currentThemeIndex = themes.indexOf(saved);
+        }
+        applyTheme();
+    }
+
+    function cycleTheme() {
+        currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+        applyTheme();
+        localStorage.setItem('chip-theme', themes[currentThemeIndex]);
+    }
+
+    function applyTheme() {
+        document.documentElement.setAttribute('data-theme', themes[currentThemeIndex]);
+        document.querySelector('.theme-toggle').innerHTML = themeLabels[themes[currentThemeIndex]];
+        updateChartColors();
+    }
+
+    /* ===========================
+       VIEW SOURCE MODAL
+       =========================== */
+    const sourceJSON = {
+        title: "Tesla Robotaxi Business — Hypothetical Model",
+        type: "Educational Financial Dashboard",
+        author: "CHIP | 1st Discount Brokerage",
+        disclaimer: "For educational and informational purposes only. Not financial advice.",
+        vehicle: { model: "Tesla Model Y (Long Range)", price: 44990, fsd: 8000 },
+        startup_costs: { vehicle: 44990, fsd_package: 8000, insurance_yr1: 3000, registration: 500, interior_protection: 300, safety_equipment: 200, total: 57990 },
+        monthly_costs: { car_payment: 933, insurance: 250, electricity: 150, cleaning: 120, maintenance: 100, software: 10, total: 1563 },
+        scenarios: {
+            conservative: { hours_per_day: 6, monthly_profit: 2487, annual_profit: 29844, break_even_months: 23 },
+            moderate: { hours_per_day: 10, monthly_profit: 5187, annual_profit: 62244, break_even_months: 11 },
+            aggressive: { hours_per_day: 16, monthly_profit: 9237, annual_profit: 110844, break_even_months: 6 }
+        },
+        fleet_scaling: {
+            "1_car": { annual_profit: 62244 }, "3_cars": { annual_profit: 186732 },
+            "5_cars": { annual_profit: 311220 }, "10_cars": { annual_profit: 622440 }
+        },
+        key_metrics: { roi_year1: "107%", profit_margin: "57%", cost_per_mile_electric: 0.04, cost_per_mile_gas: 0.15 }
+    };
+
+    function openModal() {
+        document.getElementById('sourceData').textContent = JSON.stringify(sourceJSON, null, 2);
+        document.getElementById('sourceModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        document.getElementById('sourceModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    /* ===========================
+       CHART COLORS BY THEME
+       =========================== */
+    function getChartColors() {
+        const t = themes[currentThemeIndex];
+        if (t === 'dark') return {
+            aventurine: '#0ABAB5', tiffany: '#5FD4CF', terracotta: '#E8956E',
+            success: '#34D399', danger: '#EF4444', blue: '#60A5FA',
+            text: '#808890', grid: 'rgba(255,255,255,0.06)',
+            successDim: '#16A34A', dangerDim: '#DC2626'
+        };
+        if (t === 'bw') return {
+            aventurine: '#333', tiffany: '#555', terracotta: '#777',
+            success: '#444', danger: '#222', blue: '#666',
+            text: '#555', grid: 'rgba(0,0,0,0.08)',
+            successDim: '#555', dangerDim: '#333'
+        };
+        return {
+            aventurine: '#005348', tiffany: '#0ABAB5', terracotta: '#CB694D',
+            success: '#16A34A', danger: '#DC2626', blue: '#3B82F6',
+            text: '#7A685A', grid: 'rgba(0,0,0,0.06)',
+            successDim: '#16A34A', dangerDim: '#DC2626'
+        };
+    }
+
+    /* ===========================
+       CHART INSTANCES
+       =========================== */
+    let charts = {};
+    const bigTicks = { font: { size: 15, weight: 'bold' } };
+    const bigTitle = { font: { size: 16, weight: 'bold' } };
+
+    function buildCharts() {
+        const c = getChartColors();
+
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.font.size = 13;
+
+        charts.scenario = new Chart(document.getElementById('scenarioChart'), {
+            type: 'bar',
+            data: { labels: ['Conservative\n(6 hrs/day)', 'Moderate\n(10 hrs/day)', 'Aggressive\n(16 hrs/day)'], datasets: [{ label: 'Monthly Profit ($)', data: [2487, 5187, 9237], backgroundColor: [c.terracotta, c.aventurine, c.blue], borderRadius: 8 }] },
+            options: { responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$' + ctx.raw.toLocaleString() }}}, scales: { x: { ticks: bigTicks, grid: { display: false } }, y: { beginAtZero: true, ticks: { ...bigTicks, callback: v => '$'+v.toLocaleString() }, grid: { color: c.grid }}}}
+        });
+
+        charts.annual = new Chart(document.getElementById('annualChart'), {
+            type: 'bar',
+            data: { labels: ['Conservative', 'Moderate', 'Aggressive'], datasets: [{ label: 'Revenue', data: [48600, 81000, 129600], backgroundColor: c.blue, borderRadius: 6 }, { label: 'Costs', data: [18756, 18756, 18756], backgroundColor: c.danger, borderRadius: 6 }, { label: 'Profit', data: [29844, 62244, 110844], backgroundColor: c.success, borderRadius: 6 }] },
+            options: { responsive: true, plugins: { legend: { labels: { font: { size: 13 }, usePointStyle: true, padding: 12 }}, tooltip: { callbacks: { label: ctx => ctx.dataset.label+': $'+ctx.raw.toLocaleString() }}}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { beginAtZero: true, ticks: { ...bigTicks, callback: v => '$'+v.toLocaleString() }, grid: { color: c.grid }}}}
+        });
+
+        charts.startupPie = new Chart(document.getElementById('startupPie'), {
+            type: 'doughnut',
+            data: { labels: ['Tesla Model Y', 'FSD Package', 'Insurance', 'Registration', 'Interior', 'Safety'], datasets: [{ data: [44990, 8000, 3000, 500, 300, 200], backgroundColor: [c.aventurine, c.blue, c.terracotta, c.success, c.tiffany, '#999'], borderWidth: 0 }] },
+            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 12 }, padding: 12, usePointStyle: true }}, tooltip: { callbacks: { label: ctx => ctx.label+': $'+ctx.raw.toLocaleString() }}}}
+        });
+
+        charts.monthlyCost = new Chart(document.getElementById('monthlyCostPie'), {
+            type: 'doughnut',
+            data: { labels: ['Car Payment', 'Insurance', 'Electricity', 'Cleaning', 'Maintenance', 'Software'], datasets: [{ data: [933, 250, 150, 120, 100, 10], backgroundColor: [c.aventurine, c.terracotta, c.blue, c.success, c.tiffany, '#999'], borderWidth: 0 }] },
+            options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 12 }, padding: 12, usePointStyle: true }}, tooltip: { callbacks: { label: ctx => ctx.label+': $'+ctx.raw.toLocaleString()+'/mo' }}}}
+        });
+
+        charts.fleet = new Chart(document.getElementById('fleetChart'), {
+            type: 'bar',
+            data: { labels: ['1 Car', '3 Cars', '5 Cars', '10 Cars'], datasets: [{ label: 'Annual Revenue', data: [81000, 243000, 405000, 810000], backgroundColor: c.blue, borderRadius: 6 }, { label: 'Annual Profit', data: [62244, 186732, 311220, 622440], backgroundColor: c.success, borderRadius: 6 }] },
+            options: { responsive: true, plugins: { legend: { labels: { font: { size: 13 }, usePointStyle: true, padding: 12 }}, tooltip: { callbacks: { label: ctx => ctx.dataset.label+': $'+ctx.raw.toLocaleString() }}}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { beginAtZero: true, ticks: { ...bigTicks, callback: v => '$'+v.toLocaleString() }, grid: { color: c.grid }}}}
+        });
+
+        const months = ['Start','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','M13','M14','M15','M16','M17','M18'];
+        const cashFlow = [-57990]; for(let i=1;i<months.length;i++) cashFlow.push(cashFlow[i-1]+5187);
+
+        charts.breakEven = new Chart(document.getElementById('breakEvenChart'), {
+            type: 'line',
+            data: { labels: months, datasets: [{ label: 'Cumulative Cash Flow', data: cashFlow, borderColor: c.aventurine, backgroundColor: c.aventurine+'18', fill: true, tension: 0.3, pointRadius: 5, pointBackgroundColor: cashFlow.map(v => v >= 0 ? c.success : c.danger) }, { label: 'Break-Even', data: Array(months.length).fill(0), borderColor: c.grid, borderDash: [5,5], pointRadius: 0, fill: false }] },
+            options: { responsive: true, plugins: { legend: { labels: { font: { size: 13 }, usePointStyle: true, padding: 12 }}, tooltip: { callbacks: { label: ctx => '$'+ctx.raw.toLocaleString() }}}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { ticks: { ...bigTicks, callback: v => '$'+v.toLocaleString() }, grid: { color: c.grid }}}}
+        });
+
+        charts.breakEvenBars = new Chart(document.getElementById('breakEvenBars'), {
+            type: 'bar',
+            data: { labels: ['Conservative', 'Moderate', 'Aggressive'], datasets: [{ label: 'Months', data: [23, 11, 6], backgroundColor: [c.terracotta, c.aventurine, c.blue], borderRadius: 8 }] },
+            options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.raw+' months' }}}, scales: { x: { beginAtZero: true, title: { display: true, text: 'Months', ...bigTitle, color: c.text }, ticks: { ...bigTicks, color: c.text }, grid: { color: c.grid }}, y: { ticks: { ...bigTicks, color: c.text }, grid: { display: false }}}}
+        });
+
+        charts.costPerMile = new Chart(document.getElementById('costPerMile'), {
+            type: 'bar',
+            data: { labels: ['Tesla Robotaxi', 'Uber/Lyft (Gas)', 'Traditional Taxi'], datasets: [{ label: '$/mile', data: [0.04, 0.15, 0.18], backgroundColor: [c.success, c.terracotta, c.danger], borderRadius: 8 }] },
+            options: { responsive: true, plugins: { legend: { display: false }}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { beginAtZero: true, title: { display: true, text: '$ per mile', ...bigTitle, color: c.text }, ticks: { ...bigTicks, color: c.text }, grid: { color: c.grid }}}}
+        });
+
+        charts.hours = new Chart(document.getElementById('hoursChart'), {
+            type: 'bar',
+            data: { labels: ['Tesla Robotaxi', 'Uber/Lyft Driver', 'Traditional Taxi'], datasets: [{ label: 'Hours', data: [20, 10, 12], backgroundColor: [c.success, c.terracotta, c.danger], borderRadius: 8 }] },
+            options: { responsive: true, plugins: { legend: { display: false }}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { beginAtZero: true, max: 24, title: { display: true, text: 'Hours / Day', ...bigTitle, color: c.text }, ticks: { ...bigTicks, color: c.text }, grid: { color: c.grid }}}}
+        });
+
+        charts.fuel = new Chart(document.getElementById('fuelChart'), {
+            type: 'line',
+            data: { labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'], datasets: [{ label: 'Electric (Tesla)', data: [1800, 3600, 5400, 7200, 9000], borderColor: c.success, backgroundColor: c.success+'18', fill: true, tension: 0.3 }, { label: 'Gasoline', data: [6570, 13140, 19710, 26280, 32850], borderColor: c.danger, backgroundColor: c.danger+'18', fill: true, tension: 0.3 }] },
+            options: { responsive: true, plugins: { legend: { labels: { font: { size: 13 }, usePointStyle: true, padding: 12 }}, tooltip: { callbacks: { label: ctx => ctx.dataset.label+': $'+ctx.raw.toLocaleString() }}}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { beginAtZero: true, ticks: { ...bigTicks, callback: v => '$'+v.toLocaleString() }, title: { display: true, text: 'Cumulative Cost', ...bigTitle, color: c.text }, grid: { color: c.grid }}}}
+        });
+
+        charts.sensitivity = new Chart(document.getElementById('sensitivityChart'), {
+            type: 'bar',
+            data: { labels: ['Base Case', 'Fare -20%', 'Platform 30%', '8 hrs/day', 'Ins. +50%', 'All Negative'], datasets: [{ label: 'Monthly Profit ($)', data: [5187, 3837, 4587, 3837, 5062, 1712], backgroundColor: [c.success, c.terracotta, c.terracotta, c.terracotta, c.terracotta, c.danger], borderRadius: 8 }] },
+            options: { responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => '$'+ctx.raw.toLocaleString() }}}, scales: { x: { ticks: bigTicks, grid: { display: false }}, y: { beginAtZero: true, ticks: { ...bigTicks, callback: v => '$'+v.toLocaleString() }, grid: { color: c.grid }}}}
+        });
+    }
+
+    function updateChartColors() {
+        const c = getChartColors();
+        Object.values(charts).forEach(ch => {
+            if (ch.options.scales?.x) {
+                if (ch.options.scales.x.ticks) ch.options.scales.x.ticks.color = c.text;
+                if (ch.options.scales.x.grid) ch.options.scales.x.grid.color = c.grid;
+                if (ch.options.scales.x.title) ch.options.scales.x.title.color = c.text;
+            }
+            if (ch.options.scales?.y) {
+                if (ch.options.scales.y.ticks) ch.options.scales.y.ticks.color = c.text;
+                if (ch.options.scales.y.grid) ch.options.scales.y.grid.color = c.grid;
+                if (ch.options.scales.y.title) ch.options.scales.y.title.color = c.text;
+            }
+            if (ch.options.plugins?.legend?.labels) ch.options.plugins.legend.labels.color = c.text;
+            ch.update('none');
+        });
+    }
+
+    /* ===========================
+       INIT
+       =========================== */
+    initTheme();
+    buildCharts();
+    </script>
+
+</body>
+</html>
