@@ -602,6 +602,183 @@
             overflow-x: auto;
         }
 
+        /* ===== EXECUTIVE SUMMARY MODAL ===== */
+        .summary-modal { max-width: 720px; }
+        .summary-body { padding: 0 !important; }
+
+        .exec-hero {
+            background: linear-gradient(135deg, #0A1628 0%, #0D2847 50%, #0A1628 100%);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .exec-hero-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(255,255,0,0.2);
+        }
+        .exec-hero-label {
+            color: #94A3B8;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        .exec-section {
+            padding: 1.5rem 2rem;
+        }
+        .exec-heading {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            color: var(--yellow);
+            letter-spacing: 1.5px;
+            margin-bottom: 0.6rem;
+        }
+        .exec-section p {
+            color: #CBD5E1;
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+
+        .exec-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .exec-stat {
+            padding: 1.25rem 1rem;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+        .exec-stat:last-child { border-right: none; }
+        .exec-stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            color: var(--teal);
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
+        .exec-stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.3rem;
+        }
+
+        .exec-callout {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            margin: 0 2rem;
+            padding: 1.25rem;
+            background: rgba(10,186,181,0.08);
+            border: 1px solid rgba(10,186,181,0.2);
+            border-left: 3px solid var(--teal);
+            border-radius: var(--radius);
+        }
+        .exec-callout-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            line-height: 1;
+            margin-top: 0.1rem;
+        }
+        .exec-callout-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+        .exec-callout p {
+            color: #CBD5E1;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .exec-callout p strong { color: var(--yellow); }
+
+        .exec-callout-red {
+            background: #1C0B0F;
+            border-color: rgba(220,38,38,0.3);
+            border-left-color: var(--red-border);
+            margin-top: 0;
+        }
+        .exec-callout-red .exec-callout-title { color: var(--red-bright); }
+        .exec-callout-red p { color: #FCA5A5; }
+
+        .exec-table-wrap { overflow-x: auto; }
+        .exec-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .exec-table td {
+            padding: 0.7rem 0;
+            font-size: 0.88rem;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        .exec-table td:first-child { color: #94A3B8; }
+        .exec-table td:last-child {
+            text-align: right;
+            color: #FAFAFA;
+        }
+        .exec-table td strong { color: var(--teal); }
+
+        .exec-footer-line {
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #52525B;
+            letter-spacing: 1px;
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* B&W overrides for exec summary */
+        [data-theme="bw"] .exec-hero { background: #FFFFFF; border-bottom: 2px solid #000; }
+        [data-theme="bw"] .exec-hero-number { color: #000; text-shadow: none; }
+        [data-theme="bw"] .exec-hero-label { color: #000; }
+        [data-theme="bw"] .exec-heading { color: #000; }
+        [data-theme="bw"] .exec-section p { color: #000; }
+        [data-theme="bw"] .exec-grid { border-color: #000; }
+        [data-theme="bw"] .exec-stat { border-color: #000; }
+        [data-theme="bw"] .exec-stat-value { color: #000; }
+        [data-theme="bw"] .exec-stat-label { color: #000; }
+        [data-theme="bw"] .exec-callout {
+            background: #FFFFFF;
+            border: 2px solid #000;
+            border-left: 4px solid #000;
+        }
+        [data-theme="bw"] .exec-callout-title { color: #000; }
+        [data-theme="bw"] .exec-callout p { color: #000; }
+        [data-theme="bw"] .exec-callout p strong { color: #000; }
+        [data-theme="bw"] .exec-callout-red {
+            background: #FFFFFF;
+            border-color: #000;
+            border-left-color: #000;
+        }
+        [data-theme="bw"] .exec-callout-red .exec-callout-title { color: #000; }
+        [data-theme="bw"] .exec-callout-red p { color: #000; }
+        [data-theme="bw"] .exec-table td { color: #000; border-color: #000; }
+        [data-theme="bw"] .exec-table td strong { color: #000; }
+        [data-theme="bw"] .exec-footer-line { color: #000; border-color: #000; }
+
+        @media (max-width: 600px) {
+            .exec-grid { grid-template-columns: repeat(2, 1fr); }
+            .exec-stat:nth-child(2) { border-right: none; }
+            .exec-hero-number { font-size: 2.5rem; }
+            .exec-section { padding: 1.25rem 1.25rem; }
+            .exec-callout { margin: 0 1.25rem; }
+        }
+
         /* ===== B&W THEME ===== */
         [data-theme="bw"] {
             --bg-deep: #FFFFFF;
@@ -787,6 +964,7 @@
         </div>
         <div class="controls">
             <button id="themeBtn" onclick="cycleTheme()">&#9680; B&amp;W</button>
+            <button onclick="openSummary()">&#9889; Executive Summary</button>
             <button onclick="openModal()">&#128196; Source Data</button>
         </div>
     </div>
@@ -1051,7 +1229,91 @@
 
 </div>
 
-<!-- ===== MODAL ===== -->
+<!-- ===== EXECUTIVE SUMMARY MODAL ===== -->
+<div class="modal-overlay" id="summaryModal" onclick="if(event.target===this)closeSummary()">
+    <div class="modal summary-modal">
+        <div class="modal-header">
+            <h3>&#9889; Executive Summary</h3>
+            <button class="modal-close" onclick="closeSummary()">&times;</button>
+        </div>
+        <div class="modal-body summary-body">
+            <div class="exec-hero">
+                <div class="exec-hero-number">$62,244</div>
+                <div class="exec-hero-label">Year 1 Net Profit — From a Single Car</div>
+            </div>
+
+            <div class="exec-section">
+                <div class="exec-heading">The Opportunity</div>
+                <p>Tesla's robotaxi network lets everyday investors deploy a self-driving vehicle that earns revenue 20 hours a day — with no driver, no shifts, and no payroll. One car. One investment. A business that runs while you sleep.</p>
+            </div>
+
+            <div class="exec-grid">
+                <div class="exec-stat">
+                    <div class="exec-stat-value">$57,990</div>
+                    <div class="exec-stat-label">Total Startup Cost</div>
+                </div>
+                <div class="exec-stat">
+                    <div class="exec-stat-value">$5,187/mo</div>
+                    <div class="exec-stat-label">Monthly Profit</div>
+                </div>
+                <div class="exec-stat">
+                    <div class="exec-stat-value">107%</div>
+                    <div class="exec-stat-label">Year 1 ROI</div>
+                </div>
+                <div class="exec-stat">
+                    <div class="exec-stat-value">11 Months</div>
+                    <div class="exec-stat-label">Break-Even</div>
+                </div>
+            </div>
+
+            <div class="exec-section">
+                <div class="exec-heading">Why This Is Different</div>
+                <p>Traditional ride-hail companies spend 60–70% of revenue on driver wages. Remove the driver, and that margin flows straight to the vehicle owner. Pair that with Tesla's electric drivetrain — $0.04/mile vs. $0.15/mile for gas — and you have a cost structure that no taxi, Uber, or Lyft driver can compete with.</p>
+            </div>
+
+            <div class="exec-callout">
+                <div class="exec-callout-icon">&#128200;</div>
+                <div>
+                    <div class="exec-callout-title">The Fleet Multiplier</div>
+                    <p>Start with 1 car. Reinvest profits. Scale to 10 vehicles within 2–3 years. Projected annual profit at 10 cars: <strong>$622,440</strong>. No employees. No lease. No inventory. Each car is a self-funding profit center.</p>
+                </div>
+            </div>
+
+            <div class="exec-section">
+                <div class="exec-heading">The Numbers at a Glance</div>
+                <div class="exec-table-wrap">
+                    <table class="exec-table">
+                        <tr><td>Revenue per Car (Moderate)</td><td><strong>$6,750/mo</strong></td></tr>
+                        <tr><td>Operating Costs</td><td><strong>$1,563/mo</strong></td></tr>
+                        <tr><td>Tesla Platform Fee</td><td><strong>25%</strong></td></tr>
+                        <tr><td>Profit Margin</td><td><strong>57%</strong></td></tr>
+                        <tr><td>Daily Operating Hours</td><td><strong>Up to 20 hrs</strong></td></tr>
+                        <tr><td>5-Year Fuel Savings vs. Gas</td><td><strong>$23,850</strong></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="exec-callout exec-callout-red">
+                <div class="exec-callout-icon">&#9888;</div>
+                <div>
+                    <div class="exec-callout-title">Key Risks to Monitor</div>
+                    <p>Regulatory approval timelines vary by state. FSD technology must be fully certified. Market saturation could compress fares. Waymo and Uber are building competing networks. Start in approved markets and validate with real data before scaling.</p>
+                </div>
+            </div>
+
+            <div class="exec-section">
+                <div class="exec-heading">The Bottom Line</div>
+                <p>For under $58,000, you can own a business that generates six-figure annual income, requires no employees, funds its own growth, and operates around the clock. Even in the worst-case scenario — where every variable moves against you — the model still generates $20,544 per year in profit. This isn't a speculative bet. It's a math equation.</p>
+            </div>
+
+            <div class="exec-footer-line">
+                CHIP &bull; Wealth Management for Main Street &bull; For Educational Purposes Only
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== VIEW SOURCE MODAL ===== -->
 <div class="modal-overlay" id="sourceModal" onclick="if(event.target===this)closeModal()">
     <div class="modal">
         <div class="modal-header">
@@ -1152,6 +1414,15 @@ const sourceJSON = {
     key_metrics: { roi_year1: "107%", profit_margin: "57%", cost_per_mile_electric: 0.04, cost_per_mile_gas: 0.15 }
 };
 
+function openSummary() {
+    document.getElementById('summaryModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+function closeSummary() {
+    document.getElementById('summaryModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
 function openModal() {
     document.getElementById('sourceData').textContent = JSON.stringify(sourceJSON, null, 2);
     document.getElementById('sourceModal').classList.add('active');
@@ -1161,7 +1432,7 @@ function closeModal() {
     document.getElementById('sourceModal').classList.remove('active');
     document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeSummary(); }});
 
 /* ===== CHART SETUP ===== */
 const C = {
